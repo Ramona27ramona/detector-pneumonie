@@ -48,7 +48,7 @@ def overlay_heatmap(original_img, heatmap, alpha=0.4):
 # INTERFAȚĂ
 # =======================
 st.set_page_config(page_title="Detector de Pneumonie", layout="centered")
-st.title("🩻 Detector de Pneumonie din Radiografii")
+st.title(" Detector de Pneumonie din Radiografii")
 
 # Încarcă modelul (functional, compatibil Grad-CAM)
 model = tf.keras.models.load_model("pneumonia_cnn_model (2).h5")
@@ -56,7 +56,7 @@ model = tf.keras.models.load_model("pneumonia_cnn_model (2).h5")
 # =======================
 # ÎNCĂRCARE INDIVIDUALĂ
 # =======================
-st.subheader("📥 Încărcare individuală a unei radiografii")
+st.subheader(" Încărcare individuală a unei radiografii")
 uploaded_file = st.file_uploader("Încarcă o radiografie toracică (.jpg/.png)", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
@@ -68,21 +68,21 @@ if uploaded_file is not None:
     predicted_class = "PNEUMONIE" if prediction > 0.5 else "NORMALĂ"
     confidence = round(float(prediction)*100 if predicted_class == "PNEUMONIE" else (1 - float(prediction))*100, 2)
 
-    st.markdown(f"### ✅ Predicție: **{predicted_class}**")
-    st.markdown(f"### 🔬 Încredere: **{confidence}%**")
+    st.markdown(f"###  Predicție: **{predicted_class}**")
+    st.markdown(f"###  Încredere: **{confidence}%**")
 
     heatmap = generate_gradcam_heatmap(img_array, model, last_conv_layer_name="conv2d_1")
     cam_result = overlay_heatmap(img, heatmap)
-    st.image(cam_result, caption="🧠 Grad-CAM (zonă relevantă pentru predicție)", use_column_width=True)
+    st.image(cam_result, caption=" Grad-CAM (zonă relevantă pentru predicție)", use_column_width=True)
 
 # =======================
 # SCANARE AUTOMATĂ
 # =======================
-st.subheader("📁 Scanare automată folder test_images")
+st.subheader(" Scanare automată folder test_images")
 folder_path = "test_images"
 results = []
 
-if st.button("🔍 Scanează toate radiografiile"):
+if st.button(" Scanează toate radiografiile"):
     pneumonia_count = 0
     normal_count = 0
     y_true = []
@@ -110,14 +110,14 @@ if st.button("🔍 Scanează toate radiografiile"):
             st.markdown("---")
 
     # Rezumat numeric
-    st.subheader("📊 Clasificare generală")
+    st.subheader(" Clasificare generală")
     fig, ax = plt.subplots()
     ax.bar(["NORMALĂ", "PNEUMONIE"], [y_pred.count("NORMALĂ"), y_pred.count("PNEUMONIE")], color=["green", "red"])
     ax.set_ylabel("Număr imagini")
     st.pyplot(fig)
 
     # Matrice de confuzie + acuratețe
-    st.subheader("📏 Acuratețe și matrice de confuzie")
+    st.subheader(" Acuratețe și matrice de confuzie")
     acc = round(accuracy_score(y_true, y_pred)*100, 2)
     st.markdown(f"**Acuratețe generală:** {acc}%")
 
@@ -132,4 +132,4 @@ if st.button("🔍 Scanează toate radiografiile"):
     df = pd.DataFrame(results, columns=["Imagine", "Predicție", "Scor (%)", "Etichetă Reală"])
     csv_path = os.path.join(folder_path, "rezultate_predictii.csv")
     df.to_csv(csv_path, index=False)
-    st.success(f"✅ Rezultatele au fost salvate în: `{csv_path}`")
+    st.success(f" Rezultatele au fost salvate în: `{csv_path}`")
