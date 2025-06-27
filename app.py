@@ -128,7 +128,7 @@ if st.button(" Scanează toate radiografiile"):
     st.pyplot(fig_cm)
 
     # Salvare CSV
-    st.subheader("📄 Export rezultate în CSV")
+    st.subheader(" Export rezultate în CSV")
     df = pd.DataFrame(results, columns=["Imagine", "Predicție", "Scor (%)", "Etichetă Reală"])
     csv_path = os.path.join(folder_path, "rezultate_predictii.csv")
     df.to_csv(csv_path, index=False)
